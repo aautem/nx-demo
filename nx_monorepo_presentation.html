@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nx Monorepos - Lunch & Learn</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: #333;
+        overflow-x: hidden;
+      }
+
+      .presentation {
+        max-width: 1200px;
+        margin: 0 auto;
+        position: relative;
+      }
+
+      .slide {
+        min-height: 100vh;
+        padding: 60px 40px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        background: rgba(255, 255, 255, 0.95);
+        margin-bottom: 2px;
+        backdrop-filter: blur(10px);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      }
+
+      .slide:nth-child(even) {
+        background: rgba(248, 250, 252, 0.95);
+      }
+
+      h1 {
+        font-size: 3.5rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        background: linear-gradient(45deg, #667eea, #764ba2);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      h2 {
+        font-size: 2.5rem;
+        margin-bottom: 2rem;
+        color: #2d3748;
+        font-weight: 600;
+      }
+
+      h3 {
+        font-size: 1.8rem;
+        margin-bottom: 1.5rem;
+        color: #4a5568;
+        font-weight: 500;
+      }
+
+      .subtitle {
+        font-size: 1.3rem;
+        color: #666;
+        margin-bottom: 3rem;
+        max-width: 600px;
+      }
+
+      .benefits-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        width: 100%;
+        max-width: 1000px;
+        margin-top: 2rem;
+      }
+
+      .benefit-card {
+        background: white;
+        padding: 2rem;
+        border-radius: 15px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border-left: 5px solid #667eea;
+      }
+
+      .benefit-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+      }
+
+      .benefit-icon {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+      }
+
+      .benefit-title {
+        font-size: 1.3rem;
+        font-weight: 600;
+        color: #2d3748;
+        margin-bottom: 0.5rem;
+      }
+
+      .benefit-description {
+        color: #666;
+        line-height: 1.6;
+      }
+
+      .code-example {
+        background: #1a202c;
+        color: #e2e8f0;
+        padding: 1.5rem;
+        border-radius: 10px;
+        font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+        text-align: left;
+        margin: 1rem 0;
+        max-width: 800px;
+        overflow-x: auto;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      }
+
+      .highlight {
+        background: linear-gradient(
+          120deg,
+          rgba(102, 126, 234, 0.2) 0%,
+          rgba(118, 75, 162, 0.2) 100%
+        );
+        padding: 0.2rem 0.5rem;
+        border-radius: 4px;
+        font-weight: 600;
+      }
+
+      .tech-tags {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-top: 2rem;
+      }
+
+      .tech-tag {
+        background: linear-gradient(45deg, #667eea, #764ba2);
+        color: white;
+        padding: 0.5rem 1.5rem;
+        border-radius: 25px;
+        font-weight: 500;
+        font-size: 0.9rem;
+        box-shadow: 0 2px 10px rgba(102, 126, 234, 0.3);
+      }
+
+      .comparison {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 3rem;
+        max-width: 1000px;
+        margin-top: 2rem;
+      }
+
+      .comparison-item {
+        text-align: left;
+      }
+
+      .comparison-title {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        text-align: center;
+      }
+
+      .before {
+        color: #e53e3e;
+      }
+
+      .after {
+        color: #38a169;
+      }
+
+      ul {
+        list-style: none;
+        padding: 0;
+      }
+
+      li {
+        padding: 0.5rem 0;
+        position: relative;
+        padding-left: 2rem;
+      }
+
+      li:before {
+        content: '→';
+        position: absolute;
+        left: 0;
+        color: #667eea;
+        font-weight: bold;
+      }
+
+      .cta {
+        background: linear-gradient(45deg, #667eea, #764ba2);
+        color: white;
+        padding: 1rem 2rem;
+        border-radius: 30px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 1.1rem;
+        margin-top: 2rem;
+        display: inline-block;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
+      }
+
+      .cta:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 30px rgba(102, 126, 234, 0.4);
+      }
+
+      @media (max-width: 768px) {
+        .slide {
+          padding: 40px 20px;
+        }
+
+        h1 {
+          font-size: 2.5rem;
+        }
+
+        h2 {
+          font-size: 2rem;
+        }
+
+        .comparison {
+          grid-template-columns: 1fr;
+          gap: 2rem;
+        }
+
+        .benefits-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="presentation">
+      <!-- Title Slide -->
+      <div class="slide">
+        <h1>Nx Monorepos</h1>
+        <p class="subtitle">Supercharge Your Development Workflow</p>
+      </div>
+
+      <!-- Monorepo vs Monolith -->
+      <div class="slide">
+        <h2>Monorepo ≠ Monolith</h2>
+        <p class="subtitle">Understanding the crucial difference</p>
+
+        <div class="comparison">
+          <div class="comparison-item">
+            <h3 class="comparison-title" style="color: #e53e3e">🏗️ Monolith</h3>
+            <ul>
+              <li>Single deployable application</li>
+              <li>Tightly coupled components</li>
+              <li>Shared runtime and database</li>
+              <li>All-or-nothing deployments</li>
+              <li>Difficult to scale teams</li>
+              <li>Technology lock-in</li>
+            </ul>
+          </div>
+
+          <div class="comparison-item">
+            <h3 class="comparison-title" style="color: #38a169">📦 Monorepo</h3>
+            <ul>
+              <li>Multiple independent applications</li>
+              <li>Loosely coupled services</li>
+              <li>Separate deployments</li>
+              <li>Independent scaling</li>
+              <li>Team autonomy with shared standards</li>
+              <li>Polyglot architecture support</li>
+            </ul>
+          </div>
+        </div>
+
+        <p class="subtitle" style="margin-top: 2rem; font-style: italic">
+          <span class="highlight">Monorepo</span> = One repository, many
+          applications<br />
+          <span class="highlight">Monolith</span> = One application, one
+          deployment
+        </p>
+      </div>
+
+      <!-- What is Nx -->
+      <div class="slide">
+        <h2>What is Nx?</h2>
+        <p class="subtitle">
+          A smart, fast, and extensible build system with first-class monorepo
+          support
+        </p>
+
+        <div class="benefits-grid">
+          <div class="benefit-card">
+            <div class="benefit-icon">🏗️</div>
+            <div class="benefit-title">Smart Build System</div>
+            <div class="benefit-description">
+              Only rebuilds what changed with advanced dependency graph analysis
+            </div>
+          </div>
+          <div class="benefit-card">
+            <div class="benefit-icon">📦</div>
+            <div class="benefit-title">Code Generation</div>
+            <div class="benefit-description">
+              Generate components, services, and entire applications with
+              consistent patterns
+            </div>
+          </div>
+          <div class="benefit-card">
+            <div class="benefit-icon">🔧</div>
+            <div class="benefit-title">Developer Tools</div>
+            <div class="benefit-description">
+              Rich IDE integration, dependency visualization, and powerful CLI
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Key Benefits -->
+      <div class="slide">
+        <h2>Why Choose Nx Monorepos?</h2>
+
+        <div class="benefits-grid">
+          <div class="benefit-card">
+            <div class="benefit-icon">⚡</div>
+            <div class="benefit-title">Lightning Fast Builds</div>
+            <div class="benefit-description">
+              Distributed caching and computation mean you never build the same
+              thing twice
+            </div>
+          </div>
+
+          <div class="benefit-card">
+            <div class="benefit-icon">🔄</div>
+            <div class="benefit-title">Code Sharing</div>
+            <div class="benefit-description">
+              Share libraries, components, and utilities across multiple apps
+              seamlessly
+            </div>
+          </div>
+
+          <div class="benefit-card">
+            <div class="benefit-icon">🎯</div>
+            <div class="benefit-title">Consistent Tooling</div>
+            <div class="benefit-description">
+              Unified linting, testing, and formatting across all projects
+            </div>
+          </div>
+
+          <div class="benefit-card">
+            <div class="benefit-icon">📊</div>
+            <div class="benefit-title">Dependency Management</div>
+            <div class="benefit-description">
+              Visualize and manage dependencies between projects with built-in
+              tools
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- React Focus -->
+      <div class="slide">
+        <h2>Nx + React = 🚀</h2>
+        <h3>Perfect for Modern React Development</h3>
+
+        <div class="code-example">
+          # Create a new React app<br />
+          nx g @nx/react:app my-react-app<br />
+          <br />
+          # Generate a shared component library<br />
+          nx g @nx/react:library shared-ui<br />
+          <br />
+          # Generate a React component<br />
+          nx g @nx/react:component button --project=shared-ui
+        </div>
+
+        <div class="benefits-grid">
+          <div class="benefit-card">
+            <div class="benefit-title">Built-in React Support</div>
+            <div class="benefit-description">
+              Vite, Vitest, Playwright, and ESLint configurations out of the box
+            </div>
+          </div>
+          <div class="benefit-card">
+            <div class="benefit-title">Component Libraries</div>
+            <div class="benefit-description">
+              Easily create and share React component libraries across apps
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- .NET Support -->
+      <div class="slide">
+        <h2>Nx + .NET Framework</h2>
+        <h3>Enterprise-Ready for .NET Projects</h3>
+
+        <div class="code-example">
+          # Create a .NET application<br />
+          nx g @nx/dotnet:app my-dotnet-api<br />
+          <br />
+          # Generate a class library<br />
+          nx g @nx/dotnet:lib shared-models<br />
+          <br />
+          # Run specific .NET project<br />
+          nx serve my-dotnet-api
+        </div>
+
+        <div class="benefits-grid">
+          <div class="benefit-card">
+            <div class="benefit-title">.NET Integration</div>
+            <div class="benefit-description">
+              Full support for .NET Framework, .NET Core, and .NET 5+ projects
+            </div>
+          </div>
+          <div class="benefit-card">
+            <div class="benefit-title">Polyglot Development</div>
+            <div class="benefit-description">
+              Mix React frontends with .NET backends in the same repository
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Before vs After -->
+      <div class="slide">
+        <h2>The Transformation</h2>
+
+        <div class="comparison">
+          <div class="comparison-item">
+            <h3 class="comparison-title before">❌ Before Nx</h3>
+            <ul>
+              <li>Multiple repositories to manage</li>
+              <li>Duplicate configuration files</li>
+              <li>Inconsistent tooling across projects</li>
+              <li>Difficult code sharing</li>
+              <li>Slow, redundant builds</li>
+              <li>Complex deployment coordination</li>
+            </ul>
+          </div>
+
+          <div class="comparison-item">
+            <h3 class="comparison-title after">✅ After Nx</h3>
+            <ul>
+              <li>Single repository, multiple apps</li>
+              <li>Shared configurations and standards</li>
+              <li>Unified development experience</li>
+              <li>Effortless library sharing</li>
+              <li>Incremental builds and caching</li>
+              <li>Coordinated releases and deployments</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Real-World Example -->
+      <div class="slide">
+        <h2>Real-World Structure</h2>
+
+        <div class="code-example">
+          my-workspace/<br />
+          ├── apps/<br />
+          │ ├── customer-portal/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(React app)<br />
+          │ ├── admin-dashboard/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(React app)<br />
+          │ └──
+          api-gateway/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(.NET
+          Core API)<br />
+          ├── libs/<br />
+          │ ├──
+          shared-ui/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(React
+          components)<br />
+          │ ├── shared-models/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(.NET
+          models)<br />
+          │ └──
+          shared-utils/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(TypeScript
+          utilities)<br />
+          └── tools/<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;└──
+          custom-generators/&nbsp;&nbsp;&nbsp;(Team-specific generators)
+        </div>
+
+        <p class="subtitle">
+          One repository, multiple applications, shared everything
+        </p>
+      </div>
+
+      <!-- Performance Benefits -->
+      <div class="slide">
+        <h2>Performance That Scales</h2>
+
+        <div class="benefits-grid">
+          <div class="benefit-card">
+            <div class="benefit-icon">🎯</div>
+            <div class="benefit-title">Affected Commands</div>
+            <div class="benefit-description">
+              Only test/build/lint projects affected by your changes
+            </div>
+          </div>
+
+          <div class="benefit-card">
+            <div class="benefit-icon">💾</div>
+            <div class="benefit-title">Computation Caching</div>
+            <div class="benefit-description">
+              Local and distributed caching means faster builds for everyone
+            </div>
+          </div>
+
+          <div class="benefit-card">
+            <div class="benefit-icon">⚡</div>
+            <div class="benefit-title">Parallel Execution</div>
+            <div class="benefit-description">
+              Run tasks in parallel across multiple projects efficiently
+            </div>
+          </div>
+        </div>
+
+        <div class="code-example">
+          # Only test what changed<br />
+          nx affected:test<br />
+          <br />
+          # Build with maximum parallelization<br />
+          nx run-many --target=build --parallel=4
+        </div>
+      </div>
+
+      <!-- Getting Started -->
+      <div class="slide">
+        <h2>Let's Check it Out!</h2>
+
+        <a
+          href="https://nx.dev/getting-started/tutorials/react-monorepo-tutorial"
+          class="cta"
+          target="_blank"
+          >Nx Demo 🚀</a
+        >
+      </div>
+    </div>
+  </body>
+</html>
