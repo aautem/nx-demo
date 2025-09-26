@@ -3,6 +3,11 @@ import { test, expect } from '@playwright/test';
 test('has title', async ({ page }) => {
   await page.goto('/');
 
-  // Expect h1 to contain a substring.
-  expect(await page.locator('h1').innerText()).toContain('Welcome');
+  // Expect page to contain welcome text from both Hero and NxWelcome components
+  await expect(
+    page.getByRole('heading', { name: 'Welcome to our Demo' })
+  ).toBeVisible();
+  await expect(
+    page.getByRole('heading', { name: /Hello there, Welcome @nx-demo\/app-1/ })
+  ).toBeVisible();
 });
