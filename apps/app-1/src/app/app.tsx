@@ -1,4 +1,4 @@
-import { Hero } from '@nx-demo/shared-ui';
+import { Button, Hero } from '@nx-demo/shared-ui';
 import NxWelcome from './nx-welcome';
 
 import { Route, Routes, Link } from 'react-router-dom';
@@ -11,6 +11,8 @@ export function App() {
         subtitle="Build something amazing today"
         cta="Get Started"
       />
+
+      <Button>Hello, Button</Button>
 
       <NxWelcome title="@nx-demo/app-1" />
 

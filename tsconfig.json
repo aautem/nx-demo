@@ -11,6 +11,15 @@
     },
     {
       "path": "./packages/shared-ui"
+    },
+    {
+      "path": "./apps/app-2-e2e"
+    },
+    {
+      "path": "./apps/app-2"
+    },
+    {
+      "path": "./packages/shared-hooks"
     }
   ]
 }
