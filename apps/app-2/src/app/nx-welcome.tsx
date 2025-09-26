@@ -1,3 +1,6 @@
+// import { Button } from '@nx-demo/shared-ui';
+import { useCoolState } from '@nx-demo/shared-hooks';
+
 /*
  * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  This is a starter component and can be deleted.
@@ -6,6 +9,8 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
 export function NxWelcome({ title }: { title: string }) {
+  const { isCool, toggleCool } = useCoolState();
+
   return (
     <>
       <style
@@ -125,7 +130,6 @@ export function NxWelcome({ title }: { title: string }) {
       position: relative;
     }
     #hero .text-container h2 svg {
-      color: hsla(162, 47%, 50%, 1);
       height: 2rem;
       left: -0.25rem;
       position: absolute;
@@ -432,13 +436,13 @@ export function NxWelcome({ title }: { title: string }) {
           <div id="welcome">
             <h1>
               <span> Hello there, </span>
-              Welcmmoe {title} 👋
+              Welcome {title} 👋
             </h1>
           </div>
 
           <div id="hero" className="rounded">
-            <div className="text-container">
-              <h2>
+            <div className="text-container space-y-4">
+              <h2 className={isCool ? 'text-green-300' : 'text-red-300'}>
                 <svg
                   fill="none"
                   stroke="currentColor"
@@ -452,9 +456,18 @@ export function NxWelcome({ title }: { title: string }) {
                     d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"
                   />
                 </svg>
-                <span>You&apos;re up and running</span>
+                <span>App-2 is {!isCool ? 'not' : ''} cool!</span>
               </h2>
-              <a href="#commands"> What&apos;s next? </a>
+              <button
+                className="px-4 py-2 rounded bg-gray-300 text-gray-800"
+                onClick={toggleCool}
+              >
+                Set {isCool ? 'Uncool' : 'Cool'}
+              </button>
+
+              {/* <Button onClick={toggleCool}>
+                Set {isCool ? 'Uncool' : 'Cool'}
+              </Button> */}
             </div>
             <div className="logo-container">
               <svg
@@ -718,14 +731,14 @@ export function NxWelcome({ title }: { title: string }) {
                     <span>Enable faster CI & better DX</span>
                   </h2>
                 </div>
-                <p>Your Nx Cloud remote cache setup is almost complete.</p>
-
+                <p>Your workspace is connected to Nx Cloud.</p>
                 <a
-                  href="https://cloud.nx.app/connect/YKG94SBKNd"
+                  href="https://nx.dev/ci/intro/ci-with-nx#learn-about-nx-on-ci"
                   target="_blank"
                   rel="noreferrer"
                 >
-                  Click here to finish
+                  {' '}
+                  Learn about Nx on CI
                 </a>
               </div>
             </div>
